@@ -367,6 +367,27 @@ namespace Landis.Library.UniversalCohorts
         }
 
         //---------------------------------------------------------------------
+
+        public void RemoveCohortWithoutMortality(int        index,
+                                  ICohort    cohort,
+                                  ActiveSite site,
+                                  ExtensionType disturbanceType)
+        {
+            if (isDebugEnabled)
+                log.DebugFormat("  cohort removed: {0}, {1} yrs, {2} Mg/ha ({3})",
+                                cohort.Species.Name, cohort.Data.Age, cohort.Data.Biomass,
+                                disturbanceType != null
+                                    ? disturbanceType.Name
+                                    : cohort.Data.Age >= species.Longevity
+                                        ? "senescence"
+                                        : cohort.Data.Biomass == 0
+                                            ? "attrition"
+                                            : "UNKNOWN");
+
+            cohortData.RemoveAt(index);
+        }
+
+        //---------------------------------------------------------------------
         private void ReduceCohort(//int index,
                           ICohort cohort,
                           ActiveSite site,
